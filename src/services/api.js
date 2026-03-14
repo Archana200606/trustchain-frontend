@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: "https://trustchain-backend-12kl.onrender.com/api",
   headers: {
     "Content-Type": "application/json"
   }
