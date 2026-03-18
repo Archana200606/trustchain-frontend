@@ -17,20 +17,40 @@ export default function AddReview() {
     providerService.getById(id).then(setProvider).catch(console.error)
   }, [id])
 
-  async function handleSubmit(e) {
-    e.preventDefault()
-    if (!rating) { setError('Please select a rating.'); return }
-    setError(''); setLoading(true)
-    try {
-      await reviewService.submit({ providerId: parseInt(id), rating, comment })
-      navigate(`/providers/${id}`)
-    } catch (err) {
-      setError(err.response?.data?.error || 'Failed to submit review.')
-    } finally {
-      setLoading(false)
-    }
+ async function handleSubmit(e) {
+  e.preventDefault()
+
+  if (!rating) { 
+    setError('Please select a rating.')
+    return 
   }
 
+  setError('')
+  setLoading(true)
+
+  try {
+    const data = {
+      providerId: Number(id),
+      rating,
+      comment
+    }
+
+    console.log("SENDING:", data)
+
+    const res = await reviewService.submit(data)
+
+    console.log("SUCCESS:", res)
+
+    navigate(`/providers/${Number(id)}`)
+
+  } catch (err) {
+    console.log("ERROR:", err.response?.data)
+
+    setError(err.response?.data?.error || 'Failed to submit review.')
+  } finally {
+    setLoading(false)
+  }
+}
   const labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent']
 
   return (

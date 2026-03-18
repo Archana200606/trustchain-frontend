@@ -42,7 +42,10 @@ export default function ProviderDetails() {
     }
   }
 
-  useEffect(() => { loadData() }, [id])
+ useEffect(() => {
+  console.log("PROVIDER ID:", id)
+  loadData()
+}, [id])
 
   if (loading) return <div className="container page"><div className="spinner" /></div>
   if (!provider) return <div className="container page"><div className="alert alert-error">Provider not found.</div></div>
